@@ -14,7 +14,7 @@ def listen_for_messages(client, username):
         message = client.recv(2048).decode('utf-8')
         if message != '':
             final_msg = username + ": " + message
-            send_messages(message=message)
+            send_messages(message=final_msg)
         else:
             print('The Message Sent From Client ' + username + ' is Empty')
 
