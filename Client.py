@@ -15,7 +15,7 @@ def main():
     # Connect to the Server
     try:
         client.connect((HOST, PORT))
-        print("Succressfully Connected to Server!")
+        print("Successfully Connected to Server!")
     except:
         print("Unable to Connect to Server: " + HOST + " " + str(PORT))
 
