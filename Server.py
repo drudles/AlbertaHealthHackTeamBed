@@ -2,7 +2,7 @@
 import socket  # Used for the communication
 import threading  # Used to run stuff in the background
 
-HOST = "127.0.0.1"
+HOST = "10.0.0.116"
 PORT = 1234  # You can use any port between 0 to 65535
 LISTENER_LIMIT = 2
 active_users = []  # a list of all currently connected users
