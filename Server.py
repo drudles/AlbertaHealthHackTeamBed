@@ -1,11 +1,47 @@
 #  Imports:
-
 import socket  # Used for the communication
 import threading  # Used to run stuff in the background
 
 HOST = "127.0.0.1"
 PORT = 1234  # You can use any port between 0 to 65535
 LISTENER_LIMIT = 2
+active_users = []  # a list of all currently connected users
+
+# This function will listen for any upcoming messages from a client
+def listen_for_messages(client, username):
+
+    while 1:
+        message = client.recv(2048).decode('utf-8')
+        if message != '':
+            final_msg = username + ": " + message
+            send_messages(message=message)
+        else:
+            print('The Message Sent From Client ' + username + ' is Empty')
+
+# Function to send a message to a specific person
+def send_message_to_client(client, message):
+
+    client.sendall(message.encode())
+
+# Function to send any new message to all clients in chat room
+def send_messages(message):
+
+    for user in active_users:
+        send_message_to_client(user[1], message)
+
+# Function to handle client
+def client_handler(client):
+
+    # Server will listen for client message that will contain the username
+    while 1:
+        username = client.recv(2048).decode('utf-8')
+        if username != '':
+            active_users.append((username, client))
+            break
+        else:
+            print("Invalid Username!")
+
+    threading.Thread(target=listen_for_messages, args=(client, username)).start()
 
 def main():
     # Creating server class object
@@ -20,7 +56,7 @@ def main():
     except:
         print("Failed to bind to Host: " + HOST + " and PORT: " + str(PORT))
 
-    # Set Server limit
+    # Set Server limit for how many users can join a chat room at a time
     server.listen(LISTENER_LIMIT)
 
     # This while loop will keep listening to client connections
@@ -28,6 +64,9 @@ def main():
 
         client, adress = server.accept()
         print("Successfully Connected to Client " + str(adress[0]) + " " + str(adress[1]))
+
+        threading.Thread(traget=client_handler, args=(client, )).start()
+        
 
 if __name__ == '__main__':
     main()
