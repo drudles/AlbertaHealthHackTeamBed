@@ -65,7 +65,7 @@ def main():
         client, adress = server.accept()
         print("Successfully Connected to Client " + str(adress[0]) + " " + str(adress[1]))
 
-        threading.Thread(traget=client_handler, args=(client, )).start()
+        threading.Thread(target=client_handler, args=(client, )).start()
         
 
 if __name__ == '__main__':
