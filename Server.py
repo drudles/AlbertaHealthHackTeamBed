@@ -38,7 +38,7 @@ def client_handler(client):
         if username != '':
             active_users.append((username, client))
             prompt_message = "SERVER~" + f"{username} added to the chat"
-            send_messages_to_all(prompt_message)
+            send_message_to_client(client, prompt_message)
             break
         else:
             print("Invalid Username!")
@@ -68,7 +68,7 @@ def main():
         print("Successfully Connected to Client " + str(adress[0]) + " " + str(adress[1]))
 
         threading.Thread(target=client_handler, args=(client, )).start()
-        
+
 
 if __name__ == '__main__':
     main()
